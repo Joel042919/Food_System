@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Document</title>
     <link rel="stylesheet" href="{{asset('css/dashboardClient.css')}}">
 </head>
@@ -304,7 +305,7 @@
                 </div>
                 <div class="orderMenu">
                     <span>Order Menu</span>
-                    <div class="orderItem">
+                    <!--<div class="orderItem">
                         <img src="{{ asset('img/tacos.webp') }}" alt="">
                         <span>Pepperoni Pizza</span>
                         <span class="totalPrice">$1</span>
@@ -313,51 +314,26 @@
                             <span class="amount">3</span>
                             <button>+</button>
                         </div>
-                    </div>
-                    <div class="orderItem">
-                        <img src="{{ asset('img/tacos.webp') }}" alt="">
-                        <span>Pepperoni Pizza</span>
-                        <span class="totalPrice">$1</span>
-                        <div class="addQuantity">
-                            <button>-</button>
-                            <span class="amount">3</span>
-                            <button>+</button>
-                        </div>
-                    </div>
-                    <div class="orderItem">
-                        <img src="{{ asset('img/tacos.webp') }}" alt="">
-                        <span>Pepperoni Pizza</span>
-                        <span class="totalPrice">$1</span>
-                        <div class="addQuantity">
-                            <button>-</button>
-                            <span class="amount">3</span>
-                            <button>+</button>
-                        </div>
-                    </div>
-                    <div class="orderItem">
-                        <img src="{{ asset('img/tacos.webp') }}" alt="">
-                        <span>Pepperoni Pizza</span>
-                        <span class="totalPrice">$1</span>
-                        <div class="addQuantity">
-                            <button>-</button>
-                            <span class="amount">3</span>
-                            <button>+</button>
-                        </div>
+                    </div>-->
+                    <div class="pedidos">
+                        
                     </div>
                     <div class="totalOrder">
                         <span>Total</span>
                         <span class="totalPriceOrder">
-                            $3.5
+                            $0
                         </span>
                     </div>
-                    <div class="pay">
+                    <a class="pay">
                         <img src="{{ asset('img/debit-card.png') }}" alt="">
-                        <span>Let's Pay</span>
-                    </div>
+                        <span>Let's Order</span>
+                    </a>
                 </div>
             </section>
         </div>
     </div>
     <script src="{{asset('js/entranceNavBar.js')}}"></script>
+    <script src="{{asset('js/chargeDishesToCart.js')}}" type="module" defer></script>
+    <script src="{{asset('js/sendOrder.js')}}" type="module" defer></script>
 </body>
 </html>

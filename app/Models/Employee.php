@@ -19,6 +19,7 @@ class Employee extends Model
         'surnames',
         'idDepartment',
         'status',
+        'photo_url'
     ];
 
     //Define the inverse of the polymorphic relationship

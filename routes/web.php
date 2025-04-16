@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EntranceController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\MeseroController;
 
 Route::get('/', function () {
     return view('ladingPage');
@@ -39,5 +40,9 @@ Route::get('/auth/{provider}/callback',[RegisterController::class,'socialAuthent
 //Entrance
 Route::get('/entrance',[EntranceController::class,'index']);
 
+
+//mesero
+Route::get('/index',[MeseroController::class,'index'])->name('meseroIndex');
+Route::post('/order',[MeseroController::class,'makeOrder']);
 
 

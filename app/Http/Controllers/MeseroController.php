@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Dishes;
 
-class EntranceController extends Controller
+class MeseroController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +13,8 @@ class EntranceController extends Controller
     public function index()
     {
         $dishes = Dishes::where('status',1)->get();
-        //dd($dishes[0]->dishImg);
-        return view('clientView/index',compact('dishes'));
+        //dd($dishes);
+        return view('mozoView.index', compact('dishes'));
     }
 
     /**
@@ -64,4 +64,18 @@ class EntranceController extends Controller
     {
         //
     }
+
+    //DO ORDER
+    public function makeOrder(Request $request){
+        //Acces body
+        $orders = $request->json()->all();
+
+        
+
+        return response()->json([
+            'message' => 'Order received successfully'
+        ]);
+    }
+
+
 }

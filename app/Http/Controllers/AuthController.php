@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -105,9 +106,15 @@ class AuthController extends Controller
         
         if($user && Hash::check($request->password, $user->password)){
             if($user->owner && $user->owner instanceof Client){
+                
                 return redirect('entrance');
             }else{
-                return dd("Dear worker our platform is still in progress of construction");
+                $employee = Employee::where('idEmployee',$user->owner_id)
+                            ->where('idPosition',1)->first();
+                if($employee){
+                    $this->saveInfoSessionEmployee($employee);
+                    return redirect()->route('meseroIndex');
+                }
             } 
         }
         return redirect('login')
@@ -115,8 +122,19 @@ class AuthController extends Controller
                     ->withInput();
     }
 
+    public function saveInfoSessionEmployee($userInfo){
+        //Sotre data in session
+        session([
+            'user_id'=>$userInfo->idEmployee,
+            'user_name'=>$userInfo->names,
+            'user_photo'=>$userInfo->photo_url
+        ]);
+    }
+
     public function logout(){
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/');
     }
 
