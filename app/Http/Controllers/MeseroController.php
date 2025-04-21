@@ -67,9 +67,24 @@ class MeseroController extends Controller
 
     //DO ORDER
     public function makeOrder(Request $request){
-        //Acces body
+        //Get orders
         $orders = $request->json()->all();
 
+        //Get start the transaction
+        try {
+            DB::beginTransaction();
+
+            $user = session()->get('employee_id');
+            if(!$user){
+                throw new \Exception("User not authenticated");
+            }
+
+            //Create the main order
+            
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
         
 
         return response()->json([
