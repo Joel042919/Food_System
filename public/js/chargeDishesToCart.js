@@ -13,9 +13,9 @@ dishes.addEventListener('click',(e)=>{
             let name = details[0].textContent
             let price = details[1].textContent
             let img = element.querySelector('img').src
-            orders.set(id,{name:name,img:img,price:parseInt(price), quantity:1})
+            orders.set(id,{name:name,img:img,price:Number(price), quantity:1})
             renderCart(id)
-            sumTotalOrder(parseInt(price))
+            sumTotalOrder(Number(price))
         }
     }
 })

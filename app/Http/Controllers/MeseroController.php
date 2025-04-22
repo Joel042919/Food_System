@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Dishes;
+use App\Models\Pedido;
+use App\Models\Category;
+use App\Models\DetallePedido;
+use Carbon\Carbon;
 
 class MeseroController extends Controller
 {
@@ -13,8 +18,19 @@ class MeseroController extends Controller
     public function index()
     {
         $dishes = Dishes::where('status',1)->get();
-        //dd($dishes);
-        return view('mozoView.index', compact('dishes'));
+        //Get only categories
+        $categories = Category::whereHas('dishes', function($query){
+            $query->where('status',1);
+        })->get();
+
+        //Get every category with his active dish
+        /*$categories = Category::whereHas('dishes',function($query){
+            $query->where('status',1);
+        })->with(['dishes'=>function($query){
+            $query->where('status',1);
+        }])->get();*/
+        
+        return view('mozoView.index', compact('dishes','categories'));
     }
 
     /**
@@ -74,22 +90,45 @@ class MeseroController extends Controller
         try {
             DB::beginTransaction();
 
-            $user = session()->get('employee_id');
+            $user = session()->get('user_id');
             if(!$user){
                 throw new \Exception("User not authenticated");
             }
 
-            //Create the main order
-            
-            
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-        
+            //Create PEDIDO
+            $pedido = new Pedido();
 
-        return response()->json([
-            'message' => 'Order received successfully'
-        ]);
+            $pedido->pedidoDate = Carbon::now()->toDateTimeString();
+            $pedido->details = '';
+            $pedido->idEmployee = $user;
+            $pedido->save();
+
+            //Create DetallePedido
+            foreach($orders as $dishId=>$dishData){
+                $item = new DetallePedido();
+                $item->idPedido = $pedido->idPedido;
+                $item->idDishes = $dishId;
+                $item->price = $dishData['price'];
+                $item->quantity = $dishData['quantity'];
+                $item->save();
+            }
+            
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Order received successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            \Log::error('Order creation failed: '. $e->getMessage());
+
+            return response()->json([
+                'message' => 'Order Failed',
+                'error' => $e->getMessage()
+            ],500);
+        }
     }
 
 
