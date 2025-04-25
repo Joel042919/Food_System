@@ -7,7 +7,7 @@
         </div>
         <div class="categories">
             @foreach($categories as $category)
-                <div class="category">
+                <div class="category" data-id="{{$category->idCategory}}">
                     <img src="{{ asset($category->categoryUrl) }}" alt="">
                     <span>{{$category->category}}</span>
                 </div>
@@ -71,7 +71,7 @@
             <div class="containerAll">
                 @foreach($dishes as $dish)
                     <div class="dish" data-id="{{$dish->idDishes}}">
-                        <img class="imageCard" src="{{ $dish->dishImg }}" loading="lazy"  alt="" >
+                        <img class="imageCard" src="{{  $dish->dishImg }}" loading="lazy"  alt="" rel="dns-prefetch" >
                         <div class="more">
                             <div class="details">
                                 <span>{{ $dish['dishName'] }}</span>
@@ -123,6 +123,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{asset('js/filterByCategory.js')}}" type="module" defer></script>
     <script src="{{asset('js/chargeDishesToCart.js')}}" type="module" defer></script>
     <script src="{{asset('js/sendOrder.js')}}" type="module" defer></script>
 @endsection

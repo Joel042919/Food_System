@@ -153,6 +153,6 @@
         </div>
     </div>
     <script src="{{asset('js/entranceNavBar.js')}}"></script>
-    yield('scripts')
+    @yield('scripts')
 </body>
 </html>

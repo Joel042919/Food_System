@@ -188,6 +188,8 @@ body{
     border-radius: 1em;
     gap: 2px;
     width: 20em;
+    cursor: pointer;
+    user-select: none;
 }
 
 .categories .category img{

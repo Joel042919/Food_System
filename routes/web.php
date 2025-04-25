@@ -46,3 +46,6 @@ Route::get('/index',[MeseroController::class,'index'])->name('meseroIndex');
 Route::post('/order',[MeseroController::class,'makeOrder']);
 
 
+//Filter by category
+Route::get('/filterByCategory',[MeseroController::class,'filterByCategory']);
+

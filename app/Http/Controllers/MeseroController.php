@@ -9,6 +9,7 @@ use App\Models\Pedido;
 use App\Models\Category;
 use App\Models\DetallePedido;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class MeseroController extends Controller
 {
@@ -131,5 +132,15 @@ class MeseroController extends Controller
         }
     }
 
+    public function filterByCategory(Request $request){
+        $idCategory = $request->json()->all();
+
+        $categories = Dishes::where('idCategory',$idCategory);
+
+        
+        return response()->json([
+            'message'=>'Success'
+        ]);
+    }
 
 }
