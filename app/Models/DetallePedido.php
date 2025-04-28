@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Relation\BelongsTo;
 class DetallePedido extends Model
 {
     protected $table = 'DetallePedido';
-    protected $primaryKey = ['idPedido','idDishes'];
-    public $incrementing = false;
+    protected $primaryKey = 'idDetallePedido';
+    public $incrementing = true;
     public $timestamps = false;
 
     protected $fillable = [
+        'idPedido',
+        'idDishes',
         'price',
         'quantity'
     ];

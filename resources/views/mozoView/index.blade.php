@@ -1,5 +1,9 @@
 @extends('mainDashboard')
 
+@section('meta')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('contenido')
     <section class="showDishes">
         <div class="offers">
@@ -22,30 +26,8 @@
                 @php
                     $populars = [
                         ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'],    
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
-                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59'], 
+                        ['img'=>'eggBread.avif','name'=>'Fish Burguer','price'=>'$5.59']
                     ]
-
                 @endphp
 
                 @foreach($populars as $popular)
@@ -71,7 +53,7 @@
             <div class="containerAll">
                 @foreach($dishes as $dish)
                     <div class="dish" data-id="{{$dish->idDishes}}">
-                        <img class="imageCard" src="{{  $dish->dishImg }}" loading="lazy"  alt="" rel="dns-prefetch" >
+                        <img class="imageCard" src="{{  $dish->dishImg }}" alt="" rel="dns-prefetch" >
                         <div class="more">
                             <div class="details">
                                 <span>{{ $dish['dishName'] }}</span>
@@ -94,7 +76,16 @@
             </div>
         </div>
         <div class="orderMenu">
-            <span>Order Menu</span>
+            <span class="padding">Order Menu</span>
+            <div class="infOrder">
+                <label class="padding" for="numMesa">Mesa: </label>
+                <input class="numMesa" id="numMesa" type="text">
+            </div>
+            <div class="infOrder">
+                <label class="padding" for="detallePedido">Detalle Pedido: </label>
+                <textarea class="detallePedido" name="detallePedido" id="detallePedido" cols="35" rows="4"></textarea>
+            </div>
+            
             <!--<div class="orderItem">
                 <img src="{{ asset('img/tacos.webp') }}" alt="">
                 <span>Pepperoni Pizza</span>

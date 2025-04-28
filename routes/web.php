@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EntranceController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\MeseroController;
+use App\Http\Controllers\CajeroController;
 
 Route::get('/', function () {
     return view('ladingPage');
@@ -32,7 +33,7 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('
 
 //Register
 Route::get('/register',[RegisterController::class,'index'])->name('register.index'); 
-    //google
+//google
 Route::get('/auth/redirect/{provider}',[RegisterController::class,'authProviderRedirect']);
 Route::get('/auth/{provider}/callback',[RegisterController::class,'socialAuthentication']);
 
@@ -42,10 +43,17 @@ Route::get('/entrance',[EntranceController::class,'index']);
 
 
 //mesero
-Route::get('/index',[MeseroController::class,'index'])->name('meseroIndex');
+Route::prefix('mesero')->group(function () {
+    Route::get('/', [MeseroController::class, 'index'])->name('meseroIndex');
+    Route::post('/order', [MeseroController::class, 'makeOrder']);
+    Route::get('/filter-by-category', [MeseroController::class, 'filterByCategory']);
+});
+/*Route::get('/indexMesero',[MeseroController::class,'index'])->name('meseroIndex');
 Route::post('/order',[MeseroController::class,'makeOrder']);
+    //Filter by category
+Route::get('/filterByCategory',[MeseroController::class,'filterByCategory']);*/
 
-
-//Filter by category
-Route::get('/filterByCategory',[MeseroController::class,'filterByCategory']);
-
+//Cajero
+Route::get('cajero/index',[CajeroController::class,'index'])->name('cajeroIndex');
+Route::get('cajero/factura/{idPedido}',[CajeroController::class,'facturar'])->name('verFactura');
+Route::post('cajero/pagar',[CajeroController::class,'pagarPedido'])->name('pagarPedido');

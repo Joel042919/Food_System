@@ -103,17 +103,20 @@ class AuthController extends Controller
 
         //Login Logic
         $user = User::where('username', $request->username)->first();
-        
+        //dd($user);
         if($user && Hash::check($request->password, $user->password)){
             if($user->owner && $user->owner instanceof Client){
                 
                 return redirect('entrance');
             }else{
-                $employee = Employee::where('idEmployee',$user->owner_id)
-                            ->where('idPosition',1)->first();
-                if($employee){
+                $employee = Employee::where('idEmployee',$user->owner_id)->first();
+                
+                if($employee->idPosition==1){
                     $this->saveInfoSessionEmployee($employee);
                     return redirect()->route('meseroIndex');
+                }else if($employee->idPosition==2){
+                    $this->saveInfoSessionEmployee($employee);
+                    return redirect()->route('cajeroIndex');
                 }
             } 
         }
@@ -233,15 +236,16 @@ class AuthController extends Controller
         ]);*/
 
         $employee = Employee::create([
-            'idEmployee'=>'EMP002',
-            'names'=>'Andrea',
-            'surnames'=>'Grr',
-            'idDepartment'=>1,
+            'idEmployee'=>'EMP004',
+            'names'=>'Julia',
+            'surnames'=>'Galarza Hilo',
+            'idPosition'=>1,
             'status'=>1,
         ]);
 
         $user1 = new User([
-            'username'=>'andreGr',
+            'id'=>3,
+            'username'=>'juliaW',
             'password'=>Hash::make('1234'),
         ]);
 
@@ -249,19 +253,22 @@ class AuthController extends Controller
 
 
         // Create a client
-        $client = Client::create([
-            'idClient' => 'CLI002',
-            'names' => 'Samuel Julian',
-            'surnames' => 'Font',
+        $employee2 = Employee::create([
+            'idEmployee' => 'EMP003',
+            'names' => 'Jose',
+            'surnames' => 'Ferrer Culqui',
+            'idPosition'=>2,
+            'status'=>1,
         ]);
 
         // Create a user and associate it with the client
         $user = new User([
-            'username' => 'samuJu',
+            'id'=>1,
+            'username' => 'joseEconomy',
             'password' => Hash::make('1234'),
         ]);
 
-        $client->user()->save($user);
+        $employee2->user()->save($user);
         dd($user);
     }
 

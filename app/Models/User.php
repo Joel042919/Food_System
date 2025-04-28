@@ -15,6 +15,8 @@ class User extends Authenticatable
 
     protected $table = 'users_rest';
     protected $primaryKey = 'id';
+    protected $keyType = 'int';
+    protected $increment = false;
     public $timestamps = false;
 
     /**
@@ -23,6 +25,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'id',
         'username',
         'password',
         'owner_id',

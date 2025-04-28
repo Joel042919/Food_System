@@ -1,7 +1,14 @@
 const dishes = document.querySelector('.containerAll')
 const purchaseOrder = document.querySelector('.pedidos')
-export const orders = new Map()
-let totalPriceOrder = 0
+export let orders = new Map()
+export let totalPriceOrder = 0
+export function clearOrders() {
+    orders.clear();
+}
+export function resetTotalPrice() {
+    totalPriceOrder = 0;
+}
+
 dishes.addEventListener('click',(e)=>{
     if(e.target.tagName==='BUTTON'){
         let element = e.target.closest('.dish')
@@ -115,8 +122,8 @@ function sumTotalOrder(price){
     
     let pastPrice = parseInt(cleanFormatPrice)*/
     totalPrice.textContent = `$${totalPriceOrder}`
-    let pay = document.querySelector('.pay')
-    pay.dataset.price=totalPriceOrder
+    /*let pay = document.querySelector('.pay')
+    pay.dataset.price=totalPriceOrder*/
     /*let total = 0
     for(const order of orders){
         total += order[1]["price"]*order[1]["quantity"]

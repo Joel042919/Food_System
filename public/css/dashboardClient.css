@@ -206,7 +206,6 @@ body{
 .popularDishes .containerPopular{
     display: flex;
     gap: 1em;
-    border: 2px solid blue;
     overflow-x: auto;
     scrollbar-width: none;
 }
@@ -225,6 +224,7 @@ body{
     object-fit: cover;
     border-top-left-radius: .5em;
     border-top-right-radius: .5em;
+    aspect-ratio: 1/1;
 }
 
 
@@ -272,14 +272,20 @@ body{
 
 .containerAll{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
     gap: 1em;
-    
+    width: 100%;
+    /*will-change: transform;
+    contain: strict;*/
 }
 
 .dish{
     border: 1px solid black;
     border-radius: .5em;
+    min-height: 12em;
+    min-width: 10em;
+    /*backface-visibility: hidden;
+    transform: translateZ(0);*/
 }
 
 
@@ -299,7 +305,6 @@ body{
 .purchase{
     grid-row: 2 / -1;
     grid-column: 2/-1;
-    border: 3px solid green;
     display: flex;
     flex-direction: column;
     gap: 1em;
@@ -350,13 +355,9 @@ body{
     display: flex;
     flex-direction: column;
     background: white;
-    gap: .5em;
+    gap: .7em;
     padding-top: 1em;
     border-radius: 1em;
-}
-
-.purchase .orderMenu > span{
-    padding-left: 1em;
 }
 
 .purchase .orderMenu .orderItem{
@@ -365,6 +366,19 @@ body{
     justify-content: space-between;
     padding-block: .5em;
     padding-inline: 1em;
+}
+
+.infOrder{
+    display: flex;
+    gap: .5em;
+}
+
+.infOrder .numMesa{
+    height: 2em;
+}
+
+.orderMenu .padding{
+    padding-left: 1em;
 }
 
 .orderMenu .orderItem img{

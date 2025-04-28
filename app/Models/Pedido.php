@@ -14,7 +14,8 @@ class Pedido extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'pedidoDate',
+        'idMesa',
+        'fechaPedido',
         'details',
         'idEmployee'
     ];
@@ -25,5 +26,13 @@ class Pedido extends Model
 
     public function detallePedido(){
         return $this->hasMany(DetallePedido::class,'idPedido');
+    }
+
+    public function mesa(){
+        return $this->belongsTo(Mesa::class,'idMesa');
+    }
+
+    public function pago(){
+        return $this->hasMany(Pago::class,'idPedido');
     }
 }

@@ -86,7 +86,7 @@ class MeseroController extends Controller
     public function makeOrder(Request $request){
         //Get orders
         $orders = $request->json()->all();
-
+        $data = $orders['data'];
         //Get start the transaction
         try {
             DB::beginTransaction();
@@ -99,13 +99,14 @@ class MeseroController extends Controller
             //Create PEDIDO
             $pedido = new Pedido();
 
-            $pedido->pedidoDate = Carbon::now()->toDateTimeString();
-            $pedido->details = '';
+            $pedido->fechaPedido = Carbon::now()->toDateTimeString();
+            $pedido->details = $orders['detalles'];
+            $pedido->idMesa =  $orders['mesa'];
             $pedido->idEmployee = $user;
             $pedido->save();
 
             //Create DetallePedido
-            foreach($orders as $dishId=>$dishData){
+            foreach($data as $dishId=>$dishData){
                 $item = new DetallePedido();
                 $item->idPedido = $pedido->idPedido;
                 $item->idDishes = $dishId;
