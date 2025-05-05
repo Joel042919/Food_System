@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pedido;
 use App\Models\DetallePedido;
 use App\Models\Pago;
-
+use Carbon\Carbon;
 
 class CajeroController extends Controller
 {
@@ -94,5 +94,21 @@ class CajeroController extends Controller
         $pago->save();
     
         return response()->json(['message' => 'Pago registrado correctamente']);
+    }
+
+
+    public function orderHistory(){
+        return view('cajeroView.orderHistory');
+    }
+
+
+
+    public function getHistory(){
+        $orderHistory = Pedido::with('detallePedido')
+                        ->whereDate('fechaPedido','2025-04-27')
+                        //->whereDate('fechaPedido',Carbon::today())
+                        ->get();
+        //dd($orderHistory);
+        return $orderHistory;
     }
 }

@@ -57,3 +57,5 @@ Route::get('/filterByCategory',[MeseroController::class,'filterByCategory']);*/
 Route::get('cajero/index',[CajeroController::class,'index'])->name('cajeroIndex');
 Route::get('cajero/factura/{idPedido}',[CajeroController::class,'facturar'])->name('verFactura');
 Route::post('cajero/pagar',[CajeroController::class,'pagarPedido'])->name('pagarPedido');
+Route::get('cajero/orderHistory',[CajeroController::class,'orderHistory'])->name('orderHistory');
+Route::get('cajero/getOrderHistory',[CajeroController::class,'getHistory']);
