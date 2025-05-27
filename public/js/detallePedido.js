@@ -84,7 +84,7 @@ detallePago.addEventListener('click', async (e) => {
             const data = await response.json()
 
 
-            if (!response.ok) {
+            if (response.ok) {
                 alert('¡Pago registrado exitosamente!')
                 location.reload()
             }

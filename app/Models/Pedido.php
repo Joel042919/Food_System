@@ -17,7 +17,8 @@ class Pedido extends Model
         'idMesa',
         'fechaPedido',
         'details',
-        'idEmployee'
+        'idEmployee',
+        'estadoPedido'
     ];
 
     public function employee(){

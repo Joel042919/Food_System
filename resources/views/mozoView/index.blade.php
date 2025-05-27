@@ -1,12 +1,8 @@
 @extends('mainDashboard')
 
-@section('meta')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-@endsection
-
 @section('contenido')
     <section class="showDishes">
-        <div class="offers">
+        <div class="offers pedidosListos">
             <img src="{{ asset('img/anuncio.avif') }}" alt="">
         </div>
         <div class="categories">
@@ -113,8 +109,25 @@
     </section>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script src="{{asset('js/filterByCategory.js')}}" type="module" defer></script>
     <script src="{{asset('js/chargeDishesToCart.js')}}" type="module" defer></script>
     <script src="{{asset('js/sendOrder.js')}}" type="module" defer></script>
-@endsection
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            if(window.Echo){
+                console.log("Echo está list. Conectando al canal Cocina");
+
+                window.Echo.channel('cocina')
+                    .listen('.pedido.listo',(data)=>{
+                        console.log("Recibido el pedido vv",data)
+                        //Esucha en el canal público
+                        new Notification("¡Pedido Listo!", { body: data.mensaje });
+                    })
+                console.log("Escucha eventos...")
+            }else{
+                console.log("Laravel echo no esta configurado o no se ha cargado")
+            }
+        })
+    </script>
+@endpush

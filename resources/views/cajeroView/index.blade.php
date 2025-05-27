@@ -55,7 +55,7 @@
     
 @endsection
     
-@section('scripts')
+@push('scripts')
 
     <script src="{{asset('js/detallePedido.js')}}"></script>
-@endsection
+@endpush

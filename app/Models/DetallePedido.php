@@ -23,7 +23,7 @@ class DetallePedido extends Model
         return $this->belongsTo(Pedido::class,'idPedido');
     }
 
-    public function pedidoDelivery(){
+    public function dishes(){
         return $this->belongsTo(Dishes::class,'idDishes');
     }
 }

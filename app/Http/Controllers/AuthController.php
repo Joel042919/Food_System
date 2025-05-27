@@ -81,26 +81,27 @@ class AuthController extends Controller
             'username.required'=>'The username field is required',
             'password.required'=>'The password field is required',
         ];
-
+        
         //Validate the request
         $validator = Validator::make($request->all(),[
             'username'=>'required',
             'password'=>'required',
         ], $messages);
-
+        
         /*$validated = $request->validate([
             'username'=>'required|string',
             'password'=>'required',
-        ]);*/
-
-
+            ]);*/
+            
+            
         //Check if validation fails
         if($validator->fails()){
             return redirect('login')
-                    ->withErrors($validator)
-                    ->withInput();
+            ->withErrors($validator)
+            ->withInput();
         }
-
+            
+        //dd($request);
         //Login Logic
         $user = User::where('username', $request->username)->first();
         //dd($user);
@@ -110,18 +111,21 @@ class AuthController extends Controller
                 return redirect('entrance');
             }else{
                 $employee = Employee::where('idEmployee',$user->owner_id)->first();
-                
+                //dd($employee);
                 if($employee->idPosition==1){
                     $this->saveInfoSessionEmployee($employee);
                     return redirect()->route('meseroIndex');
                 }else if($employee->idPosition==2){
                     $this->saveInfoSessionEmployee($employee);
                     return redirect()->route('cajeroIndex');
+                }else if($employee->idPosition==3){
+                    $this->saveInfoSessionEmployee($employee);
+                    return redirect()->route('cocineroIndex');
                 }
             } 
         }
         return redirect('login')
-                    ->withErrors(['login_error'=>'Invalid username or password'])
+                    ->withErrors(['login_error'=>'El usuario no tiene un rol asignado'])
                     ->withInput();
     }
 
@@ -236,16 +240,16 @@ class AuthController extends Controller
         ]);*/
 
         $employee = Employee::create([
-            'idEmployee'=>'EMP004',
-            'names'=>'Julia',
-            'surnames'=>'Galarza Hilo',
-            'idPosition'=>1,
+            'idEmployee'=>'EMP005',
+            'names'=>'Sergio',
+            'surnames'=>'Ferrer Cosme',
+            'idPosition'=>3,
             'status'=>1,
         ]);
 
         $user1 = new User([
-            'id'=>3,
-            'username'=>'juliaW',
+            'id'=>10,
+            'username'=>'sergioFe',
             'password'=>Hash::make('1234'),
         ]);
 
@@ -253,23 +257,23 @@ class AuthController extends Controller
 
 
         // Create a client
-        $employee2 = Employee::create([
+        /*$employee2 = Employee::create([
             'idEmployee' => 'EMP003',
             'names' => 'Jose',
             'surnames' => 'Ferrer Culqui',
             'idPosition'=>2,
             'status'=>1,
-        ]);
+        ]);*/
 
         // Create a user and associate it with the client
-        $user = new User([
+        /*$user = new User([
             'id'=>1,
             'username' => 'joseEconomy',
             'password' => Hash::make('1234'),
         ]);
 
         $employee2->user()->save($user);
-        dd($user);
+        dd($user);*/
     }
 
 

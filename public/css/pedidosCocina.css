@@ -1,0 +1,58 @@
+
+
+.orderCocina{
+    background-color: #c5c6c9;
+    border-radius: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    padding: 1em;
+    max-width: 25em;
+}
+
+
+.orderCocina .pedidosTabla{
+    text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pedidosTabla th{
+    background-color: #66be72;
+}
+
+.pedidosTabla th, .pedidosTabla td{
+    border: 1px solid;
+}
+
+.orderCocina .detallesCocina{
+    background-color: #dddddd;
+    width: 100%;
+    padding: .8em;
+
+}
+
+.controlsPedido{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.controlsPedido button{
+    background-color: #66be72;
+    border-radius: 2em;
+    padding: 1em;
+    cursor: pointer;
+    user-select: none;
+}
+
+.pedidosCocina{
+    display: grid;
+    grid-template-columns:repeat(2,1fr);
+    row-gap: 2em;
+    column-gap: 1em;
+}
+
+
+

@@ -26,7 +26,7 @@
             <div class="access">
                 <div class="login">
                     <span>Login</span>
-                    <form method="POST" action="/login/verify">
+                    <form method="POST" action="{{url('/login/verify')}}">
                         @csrf
                         <p>
                             <label for="username">Username</label>

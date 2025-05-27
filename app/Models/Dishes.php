@@ -25,8 +25,8 @@ class Dishes extends Model
         return $this->belongsTo(Category::class,'idCategory');
     }
 
-    public function pedidoDelivery(){
-        return $this->belongsTo(Dishes::class,'idDishes');
+    public function pedido(){
+        return $this->HasMany(DetallePedido::class,'idDishes');
     }
 
 }

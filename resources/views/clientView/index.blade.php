@@ -148,6 +148,6 @@
     </section>
 @endsection
 
-@section('scripts')
+@push('scripts')
 
-@endsection
+@endpush

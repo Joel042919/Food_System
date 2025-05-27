@@ -8,6 +8,7 @@ use App\Http\Controllers\EntranceController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\MeseroController;
 use App\Http\Controllers\CajeroController;
+use App\Http\Controllers\CocineroController;
 
 Route::get('/', function () {
     return view('ladingPage');
@@ -59,3 +60,10 @@ Route::get('cajero/factura/{idPedido}',[CajeroController::class,'facturar'])->na
 Route::post('cajero/pagar',[CajeroController::class,'pagarPedido'])->name('pagarPedido');
 Route::get('cajero/orderHistory',[CajeroController::class,'orderHistory'])->name('orderHistory');
 Route::get('cajero/getOrderHistory',[CajeroController::class,'getHistory']);
+
+
+//Cocinero
+Route::get('cocinero/index',[CocineroController::class,'index'])->name('cocineroIndex');
+Route::put('cocinero/actualizarPedido/{id}',[CocineroController::class,'platilloTerminado']);
+
+Route::get('create',[AuthController::class,'create2']);

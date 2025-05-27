@@ -1,155 +1,26 @@
 @extends('mainDashboard')
 
 @section('styles')
-    <style>
-        .container{
-            grid-template-columns: 100%;
-        }
-
-        .cardsHistory{
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
-            gap: 1em;
-        }
-
-        .cardHistory{
-            border:1px solid black;
-        }
-
-        .hidde{
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="{{asset('css/cardHistoryCajero.css')}}">
 @endsection
 
 @section('contenido')
     <section class="resumenes">
-        <span>Total vendido dinero: </span>
-        <span>Total platos vendidos segun idplato y status activo</span>
-
+        <table>
+            <thead>
+                <th>Total vendido</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="totalMoney"></td>
+                </tr>
+            </tbody>
+        </table>
     </section>
     <section class="cardsHistory">
-        
-        <div class="cardHistory">
-            <h1>ID: ABCD124</h1>
-            <span>idMesa: 22</span>
-            <span>2025-04-30</span>
-            <span>Joel Rodriguez Muñoz</span>
-
-            <span>Detalle Pedido</span>
-            <span>Arroz con pollo</span>
-            <span>23</span>
-            <span>2</span>
-
-            <span>Total: s/ 46</span>
-        </div>
-        <div class="cardHistory">
-            <h1>ID: ABCD124</h1>
-            <span>idMesa: 22</span>
-            <span>2025-04-30</span>
-            <span>Joel Rodriguez Muñoz</span>
-
-            <span>Detalle Pedido</span>
-            <span>Arroz con pollo</span>
-            <span>23</span>
-            <span>2</span>
-
-            <span>Total: s/ 46</span>
-        </div>
-        <div class="cardHistory">
-            <h1>ID: ABCD124</h1>
-            <span>idMesa: 22</span>
-            <span>2025-04-30</span>
-            <span>Joel Rodriguez Muñoz</span>
-
-            <span>Detalle Pedido</span>
-            <span>Arroz con pollo</span>
-            <span>23</span>
-            <span>2</span>
-
-            <span>Total: s/ 46</span>
-        </div>
-        <div class="cardHistory">
-            <h1>ID: ABCD124</h1>
-            <span>idMesa: 22</span>
-            <span>2025-04-30</span>
-            <span>Joel Rodriguez Muñoz</span>
-
-            <span>Detalle Pedido</span>
-            <span>Arroz con pollo</span>
-            <span>23</span>
-            <span>2</span>
-
-            <span>Total: s/ 46</span>
-        </div>
-        <div class="cardHistory">
-            <h1>ID: ABCD124</h1>
-            <span>idMesa: 22</span>
-            <span>2025-04-30</span>
-            <span>Joel Rodriguez Muñoz</span>
-
-            <span>Detalle Pedido</span>
-            <span>Arroz con pollo</span>
-            <span>23</span>
-            <span>2</span>
-
-            <span>Total: s/ 46</span>
-        </div>
-        <div class="cardHistory">
-            <h1>ID: ABCD124</h1>
-            <span>idMesa: 22</span>
-            <span>2025-04-30</span>
-            <span>Joel Rodriguez Muñoz</span>
-
-            <span>Detalle Pedido</span>
-            <span>Arroz con pollo</span>
-            <span>23</span>
-            <span>2</span>
-
-            <span>Total: s/ 46</span>
-        </div>
-        <div class="cardHistory">
-            <h1>ID: ABCD124</h1>
-            <span>idMesa: 22</span>
-            <span>2025-04-30</span>
-            <span>Joel Rodriguez Muñoz</span>
-
-            <span>Detalle Pedido</span>
-            <span>Arroz con pollo</span>
-            <span>23</span>
-            <span>2</span>
-
-            <span>Total: s/ 46</span>
-        </div>
-        <div class="cardHistory">
-            <h1>ID: ABCD124</h1>
-            <span>idMesa: 22</span>
-            <span>2025-04-30</span>
-            <span>Joel Rodriguez Muñoz</span>
-
-            <span>Detalle Pedido</span>
-            <span>Arroz con pollo</span>
-            <span>23</span>
-            <span>2</span>
-
-            <span>Total: s/ 46</span>
-        </div>
-        <div class="cardHistory">
-            <h1>ID: ABCD124</h1>
-            <span>idMesa: 22</span>
-            <span>2025-04-30</span>
-            <span>Joel Rodriguez Muñoz</span>
-
-            <span>Detalle Pedido</span>
-            <span>Arroz con pollo</span>
-            <span>23</span>
-            <span>2</span>
-
-            <span>Total: s/ 46</span>
-        </div>
         <div class="cardHistory">
             <div class="encabezado">
-                <h1>ID: ABCD124</h1>
+                <h3>ID: ABCD324</h3>
                 <span>idMesa: 22</span>
             </div>
             <div class="cliente">
@@ -212,6 +83,6 @@
 @endsection
 
 
-@section('scripts')
+@push('scripts')
     <script src="{{asset('js/crearOrderHistory.js')}}"></script>
-@endsection
+@endpush
