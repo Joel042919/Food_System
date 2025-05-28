@@ -74,8 +74,12 @@
         <div class="orderMenu">
             <span class="padding">Order Menu</span>
             <div class="infOrder">
-                <label class="padding" for="numMesa">Mesa: </label>
-                <input class="numMesa" id="numMesa" type="text">
+                <label class="padding" for="numeroMesa">Mesa: </label>
+                <select name="numeroMesa" id="numeroMesa">
+                    @foreach($mesas as $mesa)
+                        <option value="{{$mesa->idMesa}}">{{$mesa->mesa}}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="infOrder">
                 <label class="padding" for="detallePedido">Detalle Pedido: </label>
@@ -115,14 +119,50 @@
     <script src="{{asset('js/sendOrder.js')}}" type="module" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded',function(){
+
+            function pedirPermisoNotificaciones(){
+                if(!("Notification" in window)){
+                    console.error("Este navegador no soporta notificaciones")
+                    return;
+                }
+
+                if (Notification.permission === "granted") {
+                    console.log("Permiso para notificaciones ya concedido.");
+                }else if (Notification.permission !== "denied") {
+                    Notification.requestPermission()
+                        .then(function (permission) {
+                            // Si el usuario lo concede, ¡genial!
+                            if (permission === "granted") {
+                                console.log("Permiso para notificaciones concedido.");
+                            } else {
+                                console.warn("Permiso para notificaciones denegado.");
+                            }
+                    });
+                } else {
+                    console.warn("El permiso para notificaciones está denegado. El usuario debe cambiarlo en la configuración del navegador.");
+                }
+            }
+            pedirPermisoNotificaciones();
+
             if(window.Echo){
-                console.log("Echo está list. Conectando al canal Cocina");
+                console.log("Echo está listo. Conectando al canal Cocina");
 
                 window.Echo.channel('cocina')
                     .listen('.pedido.listo',(data)=>{
                         console.log("Recibido el pedido vv",data)
                         //Esucha en el canal público
-                        new Notification("¡Pedido Listo!", { body: data.mensaje });
+                        if (Notification.permission === "granted") {
+                            try {
+                                new Notification("¡Pedido Listo!", {
+                                    body: data.mensaje
+                                    //icon: ''
+                                });
+                            } catch (error) {
+                                console.error("Error al mostrar la notificación:", error);
+                            }
+                        } else {
+                            console.log("No se muestra notificación porque el permiso no está concedido.");
+                        }
                     })
                 console.log("Escucha eventos...")
             }else{

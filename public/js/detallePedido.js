@@ -5,7 +5,7 @@ const detallePago = document.querySelector('.detallePago')
 bodyTabla.addEventListener('click',async (e)=>{
     if(e.target.tagName === 'BUTTON' && e.target.classList.contains('verDetallePago')){
         let button = e.target
-        let pedidos = await fetch(`http://127.0.0.1:8000/cajero/factura/${button.getAttribute('data-idPedido')}`)
+        let pedidos = await fetch(`/cajero/factura/${button.getAttribute('data-idPedido')}`)
         let datosPedidos = await pedidos.json()
         verDetallePago(datosPedidos)
     }
@@ -68,7 +68,7 @@ detallePago.addEventListener('click', async (e) => {
         let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         
         try {
-            const response = await fetch('http://127.0.0.1:8000/cajero/pagar', {
+            const response = await fetch('/cajero/pagar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

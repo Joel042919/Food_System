@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Pedido;
+use App\Models\Mesa;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -46,7 +47,7 @@ class PedidoTerminado implements ShouldBroadcastNow
     {
         return[
             'id'=>$this->pedido->idPedido,
-            'mesa'=>$this->pedido->idMesa,
+            'mesa'=>$this->pedido->mesa->mesa,
             'mensaje'=> "El pedido de la mesa {$this->pedido->idMesa} esta listo 👍✅!",
         ];
     }

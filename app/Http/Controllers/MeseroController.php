@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Dishes;
 use App\Models\Pedido;
+use App\Models\Mesa;
 use App\Models\Category;
 use App\Models\DetallePedido;
 use Carbon\Carbon;
@@ -24,6 +25,8 @@ class MeseroController extends Controller
             $query->where('status',1);
         })->get();
 
+        $mesas = Mesa::all();
+
         //Get every category with his active dish
         /*$categories = Category::whereHas('dishes',function($query){
             $query->where('status',1);
@@ -31,7 +34,7 @@ class MeseroController extends Controller
             $query->where('status',1);
         }])->get();*/
         
-        return view('mozoView.index', compact('dishes','categories'));
+        return view('mozoView.index', compact('dishes','categories','mesas'));
     }
 
     /**

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pedido;
 use App\Models\DetallePedido;
+use App\Models\Mesa;
 use App\Models\Pago;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class CajeroController extends Controller
 {
@@ -16,7 +18,7 @@ class CajeroController extends Controller
     public function index()
     {
         //Forma elegante
-        $pedidos = Pedido::doesntHave('pago')->get();
+        $pedidos = Pedido::with('mesa')->doesntHave('pago')->get();
         return view('cajeroView.index',compact('pedidos'));
     }
 
@@ -70,7 +72,7 @@ class CajeroController extends Controller
 
 
     public function facturar(Request $request){
-        $detallePedido = Pedido::with('detallePedido.pedidoDelivery')
+        $detallePedido = Pedido::with('detallePedido')
                 ->where('idPedido', $request->idPedido)
                 ->first();
         return response()->json($detallePedido);
@@ -79,7 +81,8 @@ class CajeroController extends Controller
     public function pagarPedido(Request $request){
         /*
         use Illuminate\Support\Facades\Log;
-        Log::info('Datos recibidos en pagarPedido:', $request->all());*/
+        Log::info('Datos recibidos en pagarPedido:', $request->all());
+        */
         $request->validate([
             'idPedido' => 'required|integer|exists:pedido,idPedido',
             'montoAPagar' => 'required|numeric',

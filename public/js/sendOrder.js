@@ -11,7 +11,7 @@ const requestOrder = document.querySelector('.pay')
 requestOrder.addEventListener('click',sendData)
 
 async function sendData(){
-    const url = "http://127.0.0.1:8000/mesero/order"
+    const url = "/mesero/order"
     const method = "POST"
     const myHeaders = new Headers();
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -21,7 +21,7 @@ async function sendData(){
         //Si fuera GET
         //const response = await fetch(url);
         const details = document.querySelector('.detallePedido')
-        const numMesa = document.querySelector('.numMesa')
+        const numMesa = document.getElementById('numeroMesa')
 
         //Por ser post
         const response = await fetch(url,{

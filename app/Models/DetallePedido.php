@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relation\BelongsTo;
 
 class DetallePedido extends Model
 {
-    protected $table = 'DetallePedido';
+    protected $table = 'Detalle_Pedido';
     protected $primaryKey = 'idDetallePedido';
     public $incrementing = true;
     public $timestamps = false;

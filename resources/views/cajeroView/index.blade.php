@@ -34,7 +34,7 @@
                 @foreach($pedidos as $pedido)
                     <tr>
                         <td data-label="Pedido ID">{{$pedido->idPedido}}</td>
-                        <td data-label="Mesa">{{$pedido->idMesa}}</td>
+                        <td data-label="Mesa">{{$pedido->mesa->mesa}}</td>
                         <td data-label="Fecha Pedido">{{$pedido->fechaPedido}}</td>
                         <td data-label="Empleado ID">{{$pedido->idEmployee}}</td>
                         <td data-label="Opciones">
