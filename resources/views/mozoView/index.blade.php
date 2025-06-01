@@ -67,7 +67,8 @@
             <span>Your Address</span>
             <div>
                 <img class="addressIcon" src="{{ asset('img/' . 'location.png') }}" alt="">
-                <span class="address">Francisco de zela 462 Francisco de zela 462 Francisco de zela 462 Francisco de zela 462</span>
+                {{-- <span class="address">Francisco de zela 462 Francisco de zela 462 Francisco de zela 462 Francisco de zela 462</span> --}}
+                <span class="address">Francisco de zela 462</span>
                 <button class="changeAddress">Change</button>
             </div>
         </div>
@@ -110,7 +111,121 @@
                 <span>Let's Order</span>
             </a>
         </div>
+
+
+        <!-- Tu contenido actual permanece igual -->
+
+        <!-- Asistente IA -->
+        <div class="aiAssistant">
+            <h3>🤖 Asistente IA</h3>
+            <p class="aiPrompt">¿Alguna ayuda?</p>
+            <textarea id="aiInput" placeholder="Escribe tu pregunta aquí..."></textarea>
+            <button id="aiSend">Enviar</button>
+            <div id="aiResponse" class="aiResponse">
+                <!-- Aquí aparecerá la respuesta generada -->
+            </div>
+        </div>
+
+
+
+
+
     </section>
+
+
+    <!-- AGREGADO -->
+
+    <style>
+        .aiAssistant {
+            margin-top: 2rem;
+            padding: 1rem;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .aiAssistant h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .aiPrompt {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        #aiInput {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            resize: none;
+            font-size: 1rem;
+        }
+        #aiSend {
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #aiSend:hover {
+            background-color: #45a049;
+        }
+        .aiResponse {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #eef;
+            border: 1px solid #99c;
+            border-radius: 8px;
+            min-height: 50px;
+            color: #333;
+            font-style: italic;
+        }
+    </style>
+
+    <script>
+        document.getElementById('aiSend').addEventListener('click', function () {
+            const input = document.getElementById('aiInput').value;
+            const responseBox = document.getElementById('aiResponse');
+
+            if (input.trim() === '') {
+                responseBox.innerText = 'Por favor escribe algo para ayudarte.';
+                return;
+            }
+
+            responseBox.innerText = 'Procesando...';
+
+            fetch("{{ route('ia.responder') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ pregunta: input })
+            })
+            .then(response => response.json())
+            .then(data => {
+                responseBox.innerText = data.respuesta;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                responseBox.innerText = 'Ocurrió un error. Intenta de nuevo.';
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
 @endsection
 
 @push('scripts')

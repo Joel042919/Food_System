@@ -12,6 +12,9 @@ use App\Models\DetallePedido;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\Facades\Http;
+
+
 class MeseroController extends Controller
 {
     /**
@@ -145,6 +148,78 @@ class MeseroController extends Controller
         return response()->json([
             'message'=>'Success'
         ]);
+    }
+
+    // public function responder(Request $request)
+    // {
+    //     $pregunta = $request->input('pregunta');
+
+    //     try {
+    //         // Llamada a Ollama con el modelo deepseek-r1:8b
+    //         $response = Http::post('http://localhost:11434/api/generate', [
+    //             'model' => 'deepseek-r1:8b',
+    //             'prompt' => $pregunta,
+    //             'stream' => false
+    //         ]);
+
+    //         if ($response->successful()) {
+    //             $respuestaRaw = $response->json()['response'];
+
+    //             // 🔴 Eliminar contenido entre <think>...</think>
+    //             $sinThink = preg_replace('/<think>.*?<\/think>/s', '', $respuestaRaw);
+    //             // 🔴 Eliminar etiquetas tipo <|...|> si las hubiera
+    //             $limpio = preg_replace('/<\|.*?\|>/', '', $sinThink);
+    //             // 🔴 Limpiar espacios al inicio y final
+    //             $respuesta = trim($limpio);
+
+    //             return response()->json(['respuesta' => $respuesta]);
+    //         } else {
+    //             return response()->json(['respuesta' => 'Error al generar respuesta desde Ollama.'], 500);
+    //         }
+    //     } catch (\Exception $e) {
+    //         return response()->json(['respuesta' => 'Error al conectarse con Ollama: ' . $e->getMessage()], 500);
+    //     }
+    // }
+
+
+    public function responder(Request $request)
+    {
+
+        $pregunta = $request->pregunta;
+        $apiKey = env('GEMINI_API_KEY');
+
+        $platillos = Dishes::select('dishName', 'price')->get();
+        $listaPlatos = $platillos->map(function ($p) {
+            return "{$p->dishName} (\${$p->price})";
+        })->implode(', ');
+
+        $prompt = "Tomando en cuenta estos platos: $listaPlatos. Quiero que me digas: $pregunta";
+
+        try {
+            $response = Http::timeout(120)
+                ->withHeaders([
+                    'Content-Type' => 'application/json'
+                ])
+                ->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [
+                    'contents' => [
+                        [
+                            'parts' => [
+                                ['text' => $prompt]
+                            ]
+                        ]
+                    ]
+                ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $respuesta = $data['candidates'][0]['content']['parts'][0]['text'] ?? 'No hay respuesta.';
+                return response()->json(['respuesta' => $respuesta]);
+            } else {
+                return response()->json(['respuesta' => 'Error al contactar la API de Gemini.'], 500);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['respuesta' => 'Error: ' . $e->getMessage()], 500);
+        }
     }
 
 }

@@ -67,3 +67,10 @@ Route::get('cocinero/index',[CocineroController::class,'index'])->name('cocinero
 Route::put('cocinero/actualizarPedido/{id}',[CocineroController::class,'platilloTerminado']);
 
 Route::get('create',[AuthController::class,'create2']);
+
+
+
+
+
+
+Route::post('/ia/responder', [MeseroController::class, 'responder'])->name('ia.responder');
