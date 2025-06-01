@@ -11,9 +11,9 @@ use App\Models\Category;
 use App\Models\DetallePedido;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-
+use Aws\BedrockAgentRuntime\BedrockAgentRuntimeClient;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Log;
 
 class MeseroController extends Controller
 {
@@ -182,43 +182,72 @@ class MeseroController extends Controller
     // }
 
 
-    public function responder(Request $request)
+   public function responder(Request $request)
     {
+        $pregunta = trim($request->pregunta);
 
-        $pregunta = $request->pregunta;
-        $apiKey = env('GEMINI_API_KEY');
-
+        // Obtener los platillos desde la base de datos
         $platillos = Dishes::select('dishName', 'price')->get();
-        $listaPlatos = $platillos->map(function ($p) {
-            return "{$p->dishName} (\${$p->price})";
-        })->implode(', ');
 
-        $prompt = "Tomando en cuenta estos platos: $listaPlatos. Quiero que me digas: $pregunta";
+        // Si no hay platillos, devolver un mensaje
+        if ($platillos->isEmpty()) {
+            return response()->json(['respuesta' => 'No hay platillos disponibles.'], 200);
+        }
+
+        // Construir la lista de platillos con formato claro
+        $listaPlatos = $platillos->map(function ($p) {
+            return "- {$p->dishName} (\${$p->price})";
+        })->implode("\n");
+
+        // Construir el prompt claro y estructurado
+        $prompt = <<<EOT
+        Tengo la siguiente lista de platillos disponibles:
+
+        $listaPlatos
+
+        Basado en esa lista, responde lo siguiente:
+        $pregunta
+        EOT;
+
+        // (Opcional) Registrar el prompt para depuración
+
+        // Crear el cliente de Bedrock Agent Runtime
+        $client = new \Aws\BedrockAgentRuntime\BedrockAgentRuntimeClient([
+            'region' => env('AWS_DEFAULT_REGION', 'us-east-2'),
+            'version' => 'latest',
+            'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            ],
+        ]);
 
         try {
-            $response = Http::timeout(120)
-                ->withHeaders([
-                    'Content-Type' => 'application/json'
-                ])
-                ->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}", [
-                    'contents' => [
-                        [
-                            'parts' => [
-                                ['text' => $prompt]
-                            ]
-                        ]
-                    ]
-                ]);
+            // Invocar el agente
+            $response = $client->invokeAgent([
+                'agentId' => env('BEDROCK_AGENT_ID'),
+                'agentAliasId' => env('BEDROCK_AGENT_ALIAS_ID'),
+                'sessionId' => uniqid(),
+                'inputText' => $prompt,
+            ]);
 
-            if ($response->successful()) {
-                $data = $response->json();
-                $respuesta = $data['candidates'][0]['content']['parts'][0]['text'] ?? 'No hay respuesta.';
-                return response()->json(['respuesta' => $respuesta]);
-            } else {
-                return response()->json(['respuesta' => 'Error al contactar la API de Gemini.'], 500);
+            // Leer la respuesta desde los eventos del stream
+            $respuesta = '';
+            foreach ($response['completion'] as $event) {
+                if (isset($event['chunk']['bytes'])) {
+                    $chunk = $event['chunk']['bytes'];
+                    $respuesta .= $chunk;
+                }
             }
+
+            // Retornar la respuesta del agente
+            return response()->json([
+                'respuesta' => trim($respuesta) ?: 'El agente no devolvió texto.'
+            ]);
+
         } catch (\Exception $e) {
-            return response()->json(['respuesta' => 'Error: ' . $e->getMessage()], 500);
+            return response()->json([
+                'respuesta' => 'Error: ' . $e->getMessage()
+            ], 500);
         }
     }
 

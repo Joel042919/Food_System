@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mesa extends Model
 {
-    protected $table = 'Mesa';
+    protected $table = 'mesa';
     protected $primaryKey = 'idMesa';
     protected $keyType = 'int';
     public $incrementing=true;
