@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Dishes;
+use OpenAI\Laravel\Facades\OpenAI;
 
 class ChatbotController extends Controller
 {
@@ -23,24 +25,15 @@ class ChatbotController extends Controller
         Debes ser amable y servicial. No hables de nada que no sea la comida del restaurante.
         Basándote únicamente en el menú de arriba, responde la siguiente pregunta del cliente. Si el cliente pide algo que no está en el menú o no se puede deducir de él, dile amablemente que no tienes suficiente información para esa solicitud, pero puedes recomendarle otra cosa.
         PROMPT;
-
+        $messages = [
+            ['role'=>'system','content'=>$prompt],
+            ['role'=>'system','content'=>"Menú disponible:\n{$menu}"],
+            ['role'=>'user'  ,'content'=>$preguntaUsuario],
+        ];
         try {
-            // CLIENTE PERSONALIZADO para Azure
-            $client = \OpenAI::factory()
-                ->withApiKey('')
-                ->withBaseUri('')
-                ->withHttpHeader('api-key', '')
-                ->withQueryParam('api-version', '')
-                ->make();
-
-
-            $response = $client->chat()->create([
+            $response =OpenAI::chat()->create([
                 'model' => config('openai.azure.deployment'),
-                'messages' => [
-                    ['role' => 'system', 'content' => $prompt],
-                    ['role' => 'system', 'content' => $menu],
-                    ['role' => 'user', 'content' => $preguntaUsuario]
-                ],
+                'messages' => $messages,
             ]);
 
             $respuestaAI = $response->choices[0]->message->content;
