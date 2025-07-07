@@ -48,7 +48,7 @@ class PedidoTerminado implements ShouldBroadcastNow
         return[
             'id'=>$this->pedido->idPedido,
             'mesa'=>$this->pedido->mesa->mesa,
-            'mensaje'=> "El pedido de la mesa {$this->pedido->idMesa} esta listo 👍✅!",
+            'mensaje'=> "El pedido de la mesa {$this->pedido->mesa->mesa} esta listo 👍✅!",
         ];
     }
 }
