@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy PHP app to Azure Web App - foodSystemPaas
+name: Build and deploy PHP app to Azure Web App - foodSystemPaaS
 
 on:
   push:
@@ -62,15 +62,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8BF21CD7D67A4BCF8B96DD2A612E4694 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5EF4C9B6F21942C89EAD759935E557D1 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_51F03C8FB1364237BA6D09F698D94D85 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2355373BFC0143658A9D5A56BDAFD6C1 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E7C91E0559E943C892DC106A172ABA89 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_745E463BE8764C259FBBC69E36AB8F53 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'foodSystemPaas'
+          app-name: 'foodSystemPaaS'
           slot-name: 'Production'
           package: .
           
