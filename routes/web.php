@@ -9,6 +9,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\MeseroController;
 use App\Http\Controllers\CajeroController;
 use App\Http\Controllers\CocineroController;
+use App\Http\Controllers\ChatbotController;
 
 Route::get('/', function () {
     return view('ladingPage');
@@ -73,4 +74,4 @@ Route::get('create',[AuthController::class,'create2']);
 
 
 
-Route::post('/ia/responder', [MeseroController::class, 'responder'])->name('ia.responder');
+Route::post('/ia/responder', [ChatbotController::class, 'responder'])->name('ia.responder');
